@@ -17,7 +17,7 @@ public class OrderEventPublisher {
 
     public void publish(String eventId, String orderId, String payload) {
         try {
-            kafkaTemplate.send(ORDER_EVENTS_TOPIC, eventId, payload).get();
+            kafkaTemplate.send(ORDER_EVENTS_TOPIC, orderId, payload).get();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Kafka publishing interrupted", e);

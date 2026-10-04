@@ -9,7 +9,6 @@ import com.levelup.order.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.time.Instant;
 import java.util.UUID;
