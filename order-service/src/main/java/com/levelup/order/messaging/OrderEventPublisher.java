@@ -15,7 +15,7 @@ public class OrderEventPublisher {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void publish(String eventId, String orderId, String payload) {
+    public void publish(String orderId, String payload) {
         try {
             kafkaTemplate.send(ORDER_EVENTS_TOPIC, orderId, payload).get();
         } catch (InterruptedException e) {

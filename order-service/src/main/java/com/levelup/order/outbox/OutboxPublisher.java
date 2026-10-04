@@ -19,7 +19,7 @@ public class OutboxPublisher {
     public void publishPendingEvents() {
         var events = outboxEventRepository.findByPublishedFalse();
         for (OutboxEvent event : events) {
-            orderEventPublisher.publish(event.getAggregateId(), event.getEventId().toString(), event.getPayload());
+            orderEventPublisher.publish(event.getAggregateId(), event.getPayload());
             event.markAsPublished();
             outboxEventRepository.save(event);
         }
