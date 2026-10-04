@@ -2,12 +2,14 @@ package com.levelup.order.service;
 
 import com.levelup.order.domain.Order;
 import com.levelup.order.exception.OrderNotFoundException;
+import com.levelup.order.outbox.OutboxEventRepository;
 import com.levelup.order.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.Optional;
 
@@ -21,6 +23,10 @@ class OrderServiceTest {
 
     @Mock
     private OrderRepository orderRepository;
+    @Mock
+    private OutboxEventRepository outboxEventRepository;
+    @Mock
+    private ObjectMapper objectMapper;
     @InjectMocks
     private OrderService orderService;
 
