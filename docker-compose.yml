@@ -11,6 +11,18 @@ services:
     volumes:
       - order-postgres-data:/var/lib/postgresql/data
 
+  inventory-postgres:
+    image: postgres:17
+    container_name: inventory-service-postgres
+    environment:
+      POSTGRES_DB: inventorydb
+      POSTGRES_USER: inventoryuser
+      POSTGRES_PASSWORD: inventorypassword
+    ports:
+      - "5433:5432"
+    volumes:
+      - inventory-postgres-data:/var/lib/postgresql/data
+
   kafka:
     image: apache/kafka:4.0.0
     container_name: order-service-kafka
@@ -33,3 +45,4 @@ services:
 
 volumes:
   order-postgres-data:
+  inventory-postgres-data:
