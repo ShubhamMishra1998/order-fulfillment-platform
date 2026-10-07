@@ -30,10 +30,7 @@ public class PaymentEventConsumer {
         this.paymentService = paymentService;
     }
 
-    @KafkaListener(
-            topics = "inventory-events",
-            groupId = "payment-service"
-    )
+    @KafkaListener(topics = "inventory-reserved-events", groupId = "payment-service")
     @Transactional
     public void consume(String payload) {
         InventoryReservedEvent event = objectMapper.readValue(payload, InventoryReservedEvent.class);

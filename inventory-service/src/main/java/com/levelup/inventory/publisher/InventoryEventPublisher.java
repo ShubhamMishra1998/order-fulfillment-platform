@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutionException;
 
 @Component
 public class InventoryEventPublisher {
-    private static final String INVENTORY_EVENTS_TOPIC = "inventory-events";
+    private static final String INVENTORY_RESERVED_EVENTS_TOPIC = "inventory-reserved-events";
     private final KafkaTemplate<String, String> kafkaTemplate;
 
     public InventoryEventPublisher(KafkaTemplate<String, String> kafkaTemplate) {
@@ -16,7 +16,7 @@ public class InventoryEventPublisher {
 
     public void publish(String orderId, String payload) {
         try {
-            kafkaTemplate.send(INVENTORY_EVENTS_TOPIC, orderId, payload).get();
+            kafkaTemplate.send(INVENTORY_RESERVED_EVENTS_TOPIC, orderId, payload).get();
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Kafka publishing interrupted", e);

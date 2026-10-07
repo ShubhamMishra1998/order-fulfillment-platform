@@ -29,10 +29,15 @@ public class InventoryCompensationConsumer {
     }
 
     @KafkaListener(
-            topics = "inventory-events",
+            topics = "inventory-compensation-events",
             groupId = "inventory-service")
     @Transactional
     public void consume(String payload) {
+
+        System.out.println(
+                "Received InventoryReleaseRequested: "
+                        + payload
+        );
 
         try {
             InventoryReleaseRequestedEvent event = objectMapper.readValue(payload, InventoryReleaseRequestedEvent.class);
