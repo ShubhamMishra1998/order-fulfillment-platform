@@ -1,8 +1,6 @@
 package com.levelup.order.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "orders")
@@ -12,14 +10,15 @@ public class Order {
 
     private String customerId;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
 
 
     public Order() {
         // Required by JPA
     }
 
-    public Order(String orderId, String customerId, String status) {
+    public Order(String orderId, String customerId, OrderStatus status) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.status = status;
@@ -33,11 +32,11 @@ public class Order {
         this.orderId = orderId;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -47,5 +46,17 @@ public class Order {
 
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
+    }
+
+    public void markInventoryReserved() {
+        this.status = OrderStatus.INVENTORY_RESERVED;
+    }
+
+    public void markPaymentFailed() {
+        this.status = OrderStatus.PAYMENT_FAILED;
+    }
+
+    public void markConfirmed() {
+        this.status = OrderStatus.CONFIRMED;
     }
 }

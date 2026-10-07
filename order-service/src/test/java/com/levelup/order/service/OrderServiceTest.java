@@ -1,6 +1,7 @@
 package com.levelup.order.service;
 
 import com.levelup.order.domain.Order;
+import com.levelup.order.domain.OrderStatus;
 import com.levelup.order.exception.OrderNotFoundException;
 import com.levelup.order.outbox.OutboxEventRepository;
 import com.levelup.order.repository.OrderRepository;
@@ -36,7 +37,7 @@ class OrderServiceTest {
         Order savedOrder = new Order(
                 "ORD-123",
                 "CUST-100",
-                "PENDING"
+                OrderStatus.PENDING
         );
 
         when(orderRepository.save(any(Order.class)))
@@ -46,7 +47,7 @@ class OrderServiceTest {
 
         assertNotNull(result);
         assertEquals("CUST-100", result.getCustomerId());
-        assertEquals("PENDING", result.getStatus());
+        assertEquals(OrderStatus.PENDING, result.getStatus());
 
         verify(orderRepository).save(any(Order.class));
     }
@@ -57,7 +58,7 @@ class OrderServiceTest {
         Order order = new Order(
                 "ORD-123",
                 "CUST-100",
-                "PENDING"
+                OrderStatus.PENDING
         );
 
         when(orderRepository.findById("ORD-123"))

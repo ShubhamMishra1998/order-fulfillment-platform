@@ -9,8 +9,8 @@
 	</parent>
 	<artifactId>order-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name/>
-	<description/>
+	<name>order-service</name>
+	<description>order-service</description>
 	<url/>
 	<licenses>
 		<license/>

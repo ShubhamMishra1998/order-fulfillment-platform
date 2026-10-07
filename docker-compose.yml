@@ -23,6 +23,18 @@ services:
     volumes:
       - inventory-postgres-data:/var/lib/postgresql/data
 
+  payment-postgres:
+    image: postgres:17
+    container_name: payment-service-postgres
+    environment:
+      POSTGRES_DB: paymentdb
+      POSTGRES_USER: paymentuser
+      POSTGRES_PASSWORD: paymentpassword
+    ports:
+      - "5434:5432"
+    volumes:
+      - payment-postgres-data:/var/lib/postgresql/data
+
   kafka:
     image: apache/kafka:4.0.0
     container_name: order-service-kafka
@@ -46,3 +58,4 @@ services:
 volumes:
   order-postgres-data:
   inventory-postgres-data:
+  payment-postgres-data:

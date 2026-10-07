@@ -1,8 +1,12 @@
 package com.levelup.order.service;
 
 import com.levelup.order.domain.Order;
+import com.levelup.order.domain.OrderStatus;
 import com.levelup.order.exception.OrderNotFoundException;
+import com.levelup.order.messaging.InventoryReleaseRequestedEvent;
 import com.levelup.order.messaging.OrderCreatedEvent;
+import com.levelup.order.messaging.PaymentCompletedEvent;
+import com.levelup.order.messaging.PaymentFailedEvent;
 import com.levelup.order.outbox.OutboxEvent;
 import com.levelup.order.outbox.OutboxEventRepository;
 import com.levelup.order.repository.OrderRepository;
@@ -31,7 +35,7 @@ public class OrderService {
         Order order = new Order(
                 orderId,
                 customerId,
-                "PENDING"
+                OrderStatus.PENDING
         );
 
         orderRepository.save(order);
@@ -63,5 +67,30 @@ public class OrderService {
     @Transactional
     public Order getOrder(String orderId) {
         return orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException(orderId));
+    }
+
+    @Transactional
+    public void handlePaymentCompleted(PaymentCompletedEvent event) {
+
+        Order order = getOrder(event.orderId());
+
+        order.markConfirmed();
+
+        orderRepository.save(order);
+    }
+
+    @Transactional
+    public void handlePaymentFailed(PaymentFailedEvent event) {
+
+        Order order = getOrder(event.orderId());
+
+        order.markPaymentFailed();
+
+        orderRepository.save(order);
+
+        InventoryReleaseRequestedEvent releaseEvent = new InventoryReleaseRequestedEvent(UUID.randomUUID(), event.orderId(), Instant.now(), "Payment failed", 1);
+        String payload = objectMapper.writeValueAsString(releaseEvent);
+        outboxEventRepository.save(new OutboxEvent(releaseEvent.eventId(), "InventoryReleaseRequested", event.orderId(), payload));
+
     }
 }

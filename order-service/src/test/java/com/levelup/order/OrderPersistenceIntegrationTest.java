@@ -1,6 +1,7 @@
 package com.levelup.order;
 
 import com.levelup.order.domain.Order;
+import com.levelup.order.domain.OrderStatus;
 import com.levelup.order.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ class OrderPersistenceIntegrationTest {
         Order order = new Order(
                 "ORD-TEST-001",
                 "CUST-100",
-                "PENDING"
+                OrderStatus.PENDING
         );
 
         orderRepository.save(order);
@@ -34,7 +35,7 @@ class OrderPersistenceIntegrationTest {
         assertTrue(result.isPresent());
         assertEquals("CUST-100",
                 result.get().getCustomerId());
-        assertEquals("PENDING",
+        assertEquals(OrderStatus.PENDING,
                 result.get().getStatus());
     }
 }
