@@ -65,6 +65,12 @@ services:
       KC_BOOTSTRAP_ADMIN_USERNAME: admin
       KC_BOOTSTRAP_ADMIN_PASSWORD: admin
 
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: levelup-zipkin
+    ports:
+      - "9411:9411"
+
 volumes:
   order-postgres-data:
   inventory-postgres-data:

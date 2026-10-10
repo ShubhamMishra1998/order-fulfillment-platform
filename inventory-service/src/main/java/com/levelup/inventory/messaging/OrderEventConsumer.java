@@ -49,6 +49,8 @@ public class OrderEventConsumer {
                 return;
             }
 
+            System.out.println("Inventory consumer received Kafka event");
+
             InventoryReservation reservation = new InventoryReservation(event.orderId(), "RESERVED");
             inventoryReservationRepository.save(reservation);
 
